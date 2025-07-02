@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cereal</title>
+  <style>
+    h1 {
+      text-align: center;
+    }
+    img {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+    }
+    .nav {
+      text-align: center;
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    .nav span {
+      color: gray;
+      text-decoration: line-through;
+      margin: 0 20px;
+    }
+    .nav a {
+      margin: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1></h1>
+  <p></p>
+  <img id="comicImage" src="" alt="Comic page" width="800"><br>
+
+  <div class="nav" id="nav"></div>
+
+  <script>
+    const totalPages = 2; // Set to your total number of comic pages
+    const imagePrefix = "comic";
+    const imageExt = ".webp";
+
+    function getPageNumber() {
+      const hash = window.location.hash.substring(1);
+      const num = parseInt(hash);
+      return (num >= 1 && num <= totalPages) ? num : 1;
+    }
+
+    function updatePage() {
+      const page = getPageNumber();
+      const img = document.getElementById("comicImage");
+      img.src = `${imagePrefix}${page}${imageExt}`;
+
+      const nav = document.getElementById("nav");
+      const prev = page > 1 ? page - 1 : 1;
+      const next = page < totalPages ? page + 1 : totalPages;
+
+      const backLink = page === 1
+        ? `<span>Back</span>`
+        : `<a href="#${prev}">Back</a>`;
+
+      const nextLink = page === totalPages
+        ? `<span>Next</span>`
+        : `<a href="#${next}">Next</a>`;
+
+      const homeLink = `<a href="https://www.saghaley.com">Home</a>`;
+
+      nav.innerHTML = `${backLink} ${homeLink} ${nextLink}`;
+    }
+
+    window.addEventListener("hashchange", updatePage);
+    window.addEventListener("load", updatePage);
+  </script>
+</body>
+</html>
