@@ -8,19 +8,20 @@
       text-align: center;
     }
     img {
-		display: block;
-		margin: 0 auto;
-		max-width: 100%;
-		max-height: 90vh;
-		height: auto;
-		width: auto;
-	}
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      max-height: 90vh;
+      height: auto;
+      width: auto;
+      cursor: pointer;
+    }
     .nav {
       text-align: center;
       font-size: 24px;
       margin-top: 20px;
     }
-    .nav span {
+    .nav span.disabled {
       color: gray;
       text-decoration: line-through;
       margin: 0 20px;
@@ -28,17 +29,28 @@
     .nav a {
       margin: 0 20px;
     }
+    .nav .page-number {
+      margin: 0 20px;
+    }
+    .home {
+      text-align: center;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h1></h1>
   <p></p>
-  <img id="comicImage" src="" alt="Comic page" width="800"><br>
+
+  <a id="comicLink" href="#">
+    <img id="comicImage" src="" alt="Comic page" width="800">
+  </a><br>
 
   <div class="nav" id="nav"></div>
+  <div class="home"><a href="https://www.saghaley.com">Home</a></div>
 
   <script>
-    const totalPages = 4; // Set to your total number of comic pages
+    const totalPages = 4;
     const imagePrefix = "comic";
     const imageExt = ".webp";
 
@@ -51,23 +63,26 @@
     function updatePage() {
       const page = getPageNumber();
       const img = document.getElementById("comicImage");
+      const link = document.getElementById("comicLink");
       img.src = `${imagePrefix}${page}${imageExt}`;
 
-      const nav = document.getElementById("nav");
-      const prev = page > 1 ? page - 1 : 1;
       const next = page < totalPages ? page + 1 : totalPages;
+      const prev = page > 1 ? page - 1 : 1;
+      link.href = `#${next}`;
+
+      const nav = document.getElementById("nav");
 
       const backLink = page === 1
-        ? `<span>Back</span>`
-        : `<a href="#${prev}">Back</a>`;
+        ? `<span class="disabled">←</span>`
+        : `<a href="#${prev}">←</a>`;
 
       const nextLink = page === totalPages
-        ? `<span>Next</span>`
-        : `<a href="#${next}">Next</a>`;
+        ? `<span class="disabled">→</span>`
+        : `<a href="#${next}">→</a>`;
 
-      const homeLink = `<a href="https://www.saghaley.com">Home</a>`;
+      const pageDisplay = `<span class="page-number">${page}</span>`;
 
-      nav.innerHTML = `${backLink} ${homeLink} ${nextLink}`;
+      nav.innerHTML = `${backLink} ${pageDisplay} ${nextLink}`;
     }
 
     window.addEventListener("hashchange", updatePage);
@@ -75,3 +90,5 @@
   </script>
 </body>
 </html>
+
+
