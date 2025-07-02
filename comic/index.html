@@ -7,10 +7,12 @@
     h1 {
       text-align: center;
     }
+    #comicContainer {
+      overflow: auto;
+    }
     img {
       display: block;
       margin: 0 auto;
-      max-width: 100%;
       max-height: 90vh;
       height: auto;
       width: auto;
@@ -36,15 +38,21 @@
       text-align: center;
       margin-top: 10px;
     }
+    html, body {
+      overflow: auto;
+    }
   </style>
 </head>
 <body>
   <h1></h1>
   <p></p>
 
-  <a id="comicLink" href="#">
-    <img id="comicImage" src="" alt="Comic page" width="800">
-  </a><br>
+  <div id="comicContainer">
+    <a id="comicLink" href="#">
+      <img id="comicImage" src="" alt="Comic page">
+    </a>
+  </div>
+  <br>
 
   <div class="nav" id="nav"></div>
   <div class="home"><a href="https://www.saghaley.com">Home</a></div>
@@ -90,5 +98,3 @@
   </script>
 </body>
 </html>
-
-
