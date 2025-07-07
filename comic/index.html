@@ -4,58 +4,80 @@
   <meta charset="UTF-8">
   <title>Cereal</title>
   <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+    }
+
+    html {
+      overflow-y: scroll; /* always show vertical scrollbar */
+    }
+
     h1 {
       text-align: center;
     }
-    #comicContainer {
-      overflow: auto;
-    }
-    img {
-      display: block;
-      margin: 0 auto;
-      max-height: 90vh;
-      height: auto;
-      width: auto;
-      cursor: pointer;
-    }
+
     .nav {
+      width: 100%;
       text-align: center;
       font-size: 24px;
-      margin-bottom: 20px;
+      line-height: 1;
+      margin: 20px 0;
     }
+
+    .nav a,
+    .nav span {
+      display: inline-block;
+      width: 2em;
+      text-align: center;
+    }
+
     .nav span.disabled {
       color: gray;
       text-decoration: line-through;
-      margin: 0 20px;
     }
-    .nav a {
+
+    .page-number {
       margin: 0 20px;
+      display: inline-block;
     }
-    .nav .page-number {
-      margin: 0 20px;
+
+    #comicContainer {
+      display: flex;
+      justify-content: center;
+      overflow: auto;
+      padding: 20px 0;
     }
+
+    img {
+      max-height: 90vh;
+      height: auto;
+      width: auto;
+      display: block;
+      cursor: pointer;
+    }
+
     .home {
       text-align: center;
       margin-top: 10px;
-    }
-    html, body {
-      overflow: auto;
     }
   </style>
 </head>
 <body>
   <h1></h1>
-  <p></p>
 
-  <!-- moved nav above the comic image -->
-  <div class="nav" id="nav"></div>
+  <!-- Top navigation -->
+  <div class="nav" id="navTop"></div>
 
   <div id="comicContainer">
     <a id="comicLink" href="#">
       <img id="comicImage" src="" alt="Comic page">
     </a>
   </div>
-  <br>
+
+  <!-- Bottom navigation -->
+  <div class="nav" id="navBottom"></div>
 
   <div class="home"><a href="https://www.saghaley.com">Home</a></div>
 
@@ -75,24 +97,21 @@
       const img = document.getElementById("comicImage");
       const link = document.getElementById("comicLink");
       img.src = `${imagePrefix}${page}${imageExt}`;
-
-      const next = page < totalPages ? page + 1 : totalPages;
-      const prev = page > 1 ? page - 1 : 1;
-      link.href = `#${next}`;
-
-      const nav = document.getElementById("nav");
+      link.href = `#${page < totalPages ? page + 1 : totalPages}`;
 
       const backLink = page === 1
         ? `<span class="disabled">←</span>`
-        : `<a href="#${prev}">←</a>`;
+        : `<a href="#${page - 1}">←</a>`;
 
       const nextLink = page === totalPages
         ? `<span class="disabled">→</span>`
-        : `<a href="#${next}">→</a>`;
+        : `<a href="#${page + 1}">→</a>`;
 
       const pageDisplay = `<span class="page-number">${page}</span>`;
+      const navHTML = `${backLink}${pageDisplay}${nextLink}`;
 
-      nav.innerHTML = `${backLink} ${pageDisplay} ${nextLink}`;
+      document.getElementById("navTop").innerHTML = navHTML;
+      document.getElementById("navBottom").innerHTML = navHTML;
     }
 
     window.addEventListener("hashchange", updatePage);
