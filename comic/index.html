@@ -7,11 +7,7 @@
     body, html {
       margin: 0;
       padding: 0;
-      overflow: auto;
-    }
-
-    html {
-      overflow-y: scroll; /* always show vertical scrollbar */
+      overflow-y: scroll;
     }
 
     h1 {
@@ -46,17 +42,27 @@
     #comicContainer {
       display: flex;
       justify-content: center;
-      overflow: auto;
       padding: 20px 0;
     }
 
-    img {
-      max-height: 90vh;
-      height: auto;
-      width: auto;
+    /* Default comic image style */
+    #comicImage {
       display: block;
-      cursor: pointer;
+      margin: 0 auto;
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 80vh;
+      user-select: none;
     }
+
+    /* Page-specific overrides */
+	body[data-page="7"] #comicImage {
+		  max-height: 400vh;
+		  <!--width: 1000px;
+		  height: auto;-->
+	}
+
 
     .home {
       text-align: center;
@@ -70,10 +76,9 @@
   <!-- Top navigation -->
   <div class="nav" id="navTop"></div>
 
+  <!-- Comic image -->
   <div id="comicContainer">
-    <a id="comicLink" href="#">
-      <img id="comicImage" src="" alt="Comic page">
-    </a>
+    <img id="comicImage" src="" alt="Comic page">
   </div>
 
   <!-- Bottom navigation -->
@@ -94,10 +99,10 @@
 
     function updatePage() {
       const page = getPageNumber();
+      document.body.setAttribute("data-page", page);
+
       const img = document.getElementById("comicImage");
-      const link = document.getElementById("comicLink");
       img.src = `${imagePrefix}${page}${imageExt}`;
-      link.href = `#${page < totalPages ? page + 1 : totalPages}`;
 
       const backLink = page === 1
         ? `<span class="disabled">←</span>`
@@ -114,8 +119,18 @@
       document.getElementById("navBottom").innerHTML = navHTML;
     }
 
+    function handleArrowKeyNav(e) {
+      const currentPage = getPageNumber();
+      if (e.key === "ArrowRight" && currentPage < totalPages) {
+        location.hash = `#${currentPage + 1}`;
+      } else if (e.key === "ArrowLeft" && currentPage > 1) {
+        location.hash = `#${currentPage - 1}`;
+      }
+    }
+
     window.addEventListener("hashchange", updatePage);
     window.addEventListener("load", updatePage);
+    window.addEventListener("keydown", handleArrowKeyNav);
   </script>
 </body>
 </html>
