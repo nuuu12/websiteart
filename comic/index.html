@@ -17,7 +17,7 @@
     .nav {
       width: 100%;
       text-align: center;
-      font-size: 24px;
+      font-size: 32px; /* Increased from 24px */
       line-height: 1;
       margin: 20px 0;
     }
@@ -37,6 +37,7 @@
     .page-number {
       margin: 0 20px;
       display: inline-block;
+      font-size: 24px;
     }
 
     #comicContainer {
@@ -57,16 +58,21 @@
     }
 
     /* Page-specific overrides */
-	body[data-page="7"] #comicImage {
-		  max-height: 400vh;
-		  <!--width: 1000px;
-		  height: auto;-->
-	}
-
+    body[data-page="7"] #comicImage {
+      max-height: 400vh;
+    }
 
     .home {
       text-align: center;
       margin-top: 10px;
+      font-size: 18px;
+    }
+
+    .nav-tip {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 6px;
+      color: #555;
     }
   </style>
 </head>
@@ -85,6 +91,7 @@
   <div class="nav" id="navBottom"></div>
 
   <div class="home"><a href="https://www.saghaley.com">Home</a></div>
+  <div class="nav-tip">(tip, use arrow keys to navigate)</div>
 
   <script>
     const totalPages = 7;
