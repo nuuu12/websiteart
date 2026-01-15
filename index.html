@@ -11,8 +11,8 @@
 
   <style>
     :root{
-      --ink:#6f6f6f;
-      --ink2:#9a9a9a;
+      --ink:#4a4a4a;
+      --ink2:#4a4a4a;
       --rule:#d9d9d9;
       --bg:#ffffff;
     }
@@ -66,7 +66,6 @@
       overflow:hidden;
       margin:0 0 22px;
       background:#f2f2f2;
-      position:relative;
     }
     .banner video{
       width:100%;
@@ -104,6 +103,7 @@
       height:100%;
       object-fit:cover;
       display:block;
+      background:#f2f2f2;
     }
 
     a.thumblink:hover .thumb{ transform:scale(0.97); }
@@ -133,9 +133,6 @@
       nav a{ font-size:17px; margin-left:14px; }
       .banner{ height:280px; }
     }
-	.thumb img{ background:#f2f2f2; }
-
-	
   </style>
 </head>
 
@@ -148,51 +145,33 @@
       <nav>
         <a href="https://ko-fi.com/saghaley/commissions" target="_blank" rel="noopener">Commission</a>
         <a href="https://saghaley.com/gallery/index.html" target="_blank" rel="noopener">Work</a>
+        <a href="#recent">Recent</a>
         <a href="#socials">Socials</a>
         <a href="#contact">Contact</a>
       </nav>
     </div>
 
-	<div class="banner">
-	  <video id="heroVideo"
-		autoplay
-		muted
-		playsinline
-		loop
-		preload="auto"
-		webkit-playsinline
-	  >
-		<source src="lotus.mp4" type="video/mp4">
-	  </video>
-	</div>
+    <div class="banner">
+      <video id="heroVideo" autoplay muted playsinline loop preload="auto">
+        <source src="lotus.mp4" type="video/mp4">
+      </video>
+    </div>
 
     <div id="work">
       <div class="section-title">Works</div>
       <hr>
 
       <div class="grid">
-        <a class="thumblink" href="/gallery/index.html" aria-label="Open gallery">
-          <div class="thumb"><img class="random-gallery" alt=""></div>
-        </a>
-
-        <a class="thumblink" href="/gallery/index.html" aria-label="Open gallery">
-          <div class="thumb"><img class="random-gallery" alt=""></div>
-        </a>
-		
-        <a class="thumblink" href="/gallery/index.html" aria-label="Open gallery">
-          <div class="thumb"><img class="random-gallery" alt=""></div>
-        </a>
-		
+        <a class="thumblink" href="/gallery/index.html"><div class="thumb"><img class="random-gallery" alt=""></div></a>
+        <a class="thumblink" href="/gallery/index.html"><div class="thumb"><img class="random-gallery" alt=""></div></a>
+        <a class="thumblink" href="/gallery/index.html"><div class="thumb"><img class="random-gallery" alt=""></div></a>
       </div>
     </div>
 
     <div id="recent">
       <div class="section-title">Recent</div>
       <hr>
-
-      <script
-        async
-        src="https://blueskytimeline.com/timeline.js"
+      <script async src="https://blueskytimeline.com/timeline.js"
         data-handle="saghaley.bsky.social"
         data-theme="light"
         data-width="700"
@@ -200,18 +179,17 @@
         data-ui="2"
         data-thread="0"
         data-pin="0"
-        data-rp="1">
-      </script>
+        data-rp="1"></script>
     </div>
 
     <div id="socials">
       <div class="social-links">
-        <a href="https://www.patreon.com/Saghaley" target="_blank" rel="noopener">Patreon</a>
-        <a href="https://x.com/saghaley" target="_blank" rel="noopener">X</a>
-        <a href="https://bsky.app/profile/saghaley.bsky.social" target="_blank" rel="noopener">Bluesky</a>
-        <a href="https://www.youtube.com/channel/UCaLHCoQmUwkm5isVCFj76zA" target="_blank" rel="noopener">YouTube</a>
-        <a href="https://saghaleylewis.newgrounds.com/" target="_blank" rel="noopener">Newgrounds</a>
-        <a href="https://www.redbubble.com/people/nuuu-/shop?asc=u" target="_blank" rel="noopener">Redbubble</a>
+        <a href="https://www.patreon.com/Saghaley" target="_blank">Patreon</a>
+        <a href="https://x.com/saghaley" target="_blank">X</a>
+        <a href="https://bsky.app/profile/saghaley.bsky.social" target="_blank">Bluesky</a>
+        <a href="https://www.youtube.com/channel/UCaLHCoQmUwkm5isVCFj76zA" target="_blank">YouTube</a>
+        <a href="https://saghaleylewis.newgrounds.com/" target="_blank">Newgrounds</a>
+        <a href="https://www.redbubble.com/people/nuuu-/shop?asc=u" target="_blank">Redbubble</a>
       </div>
     </div>
 
@@ -225,53 +203,32 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    /* random gallery images (prevents blank refreshes) */
-    const galleryImages = [
+    const images = [
       "angel.webp","glt.webp","deltarune.webp","dvwnpour.webp",
       "angelofdeath.webp","hello.webp","mots.webp","shelter.webp",
       "napple.webp","refuge.webp","secondshot.webp","fall.webp",
       "mado.webp","subway.webp","ics.webp","lake.webp"
     ];
 
-    const shuffled = galleryImages.slice().sort(() => Math.random() - 0.5);
+    const shuffled = images.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
 
     document.querySelectorAll(".random-gallery").forEach((img, i) => {
-      const pick = shuffled[i % shuffled.length];
-      img.loading = "lazy";
       img.decoding = "async";
-      img.src = pick;
-
-      img.onerror = () => { img.src = galleryImages[0]; };
+      img.src = shuffled[i % shuffled.length];
+      img.onerror = () => {
+        img.onerror = null;
+        img.removeAttribute("src");
+      };
     });
 
-    /* force video to actually start (no controls fallback) */
     const v = document.getElementById("heroVideo");
-    if (v) {
-      v.muted = true;
-      v.defaultMuted = true;
-      v.playsInline = true;
-
-      v.setAttribute("muted", "");
-      v.setAttribute("playsinline", "");
-      v.setAttribute("autoplay", "");
-
-      const tryPlay = () => v.play().catch(() => {
-        /* autoplay may be blocked on some browsers until user interacts */
-      });
-
-      tryPlay();
-
-      document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) tryPlay();
-      });
-
-      // extra nudge for Safari/iOS weirdness
-      window.addEventListener("pageshow", tryPlay);
-      window.addEventListener("focus", tryPlay);
-    }
+    if (v) v.play().catch(() => {});
   });
 </script>
-
 
 </body>
 </html>
