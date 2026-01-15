@@ -18,6 +18,7 @@
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
       background:var(--bg);
@@ -114,12 +115,31 @@
       gap:12px 22px;
       font-size:14px;
       margin-top:10px;
+      padding:6px 8px;
+      border-radius:10px;
     }
+
     .social-links a{
       color:var(--ink2);
       text-decoration:none;
     }
     .social-links a:hover{ color:var(--ink); }
+
+    #contactEmail{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:8px;
+    }
+
+    @keyframes flash{
+      0%   { background:rgba(0,0,0,0.14); }
+      60%  { background:rgba(0,0,0,0.06); }
+      100% { background:transparent; }
+    }
+
+    .flash{
+      animation:flash 900ms ease-out;
+    }
 
     #socials{ margin-top:26px; }
     #contact{ margin-top:18px; }
@@ -143,11 +163,10 @@
       <h1 class="brand">Saghaley Lewis</h1>
 
       <nav>
-        <a href="https://ko-fi.com/saghaley/commissions" target="_blank" rel="noopener">Commission</a>
-        <a href="https://saghaley.com/gallery/index.html" target="_blank" rel="noopener">Work</a>
-        <a href="#recent">Recent</a>
-        <a href="#socials">Socials</a>
-        <a href="#contact">Contact</a>
+        <a href="https://ko-fi.com/saghaley/commissions" target="_blank">Commission</a>
+        <a href="https://saghaley.com/gallery/index.html" target="_blank">Work</a>
+        <a id="navSocials" href="#socials">Socials</a>
+        <a id="navContact" href="#contact">Contact</a>
       </nav>
     </div>
 
@@ -160,7 +179,6 @@
     <div id="work">
       <div class="section-title">Works</div>
       <hr>
-
       <div class="grid">
         <a class="thumblink" href="/gallery/index.html"><div class="thumb"><img class="random-gallery" alt=""></div></a>
         <a class="thumblink" href="/gallery/index.html"><div class="thumb"><img class="random-gallery" alt=""></div></a>
@@ -183,18 +201,21 @@
     </div>
 
     <div id="socials">
-      <div class="social-links">
+      <div id="socialLinks" class="social-links">
         <a href="https://www.patreon.com/Saghaley" target="_blank">Patreon</a>
         <a href="https://x.com/saghaley" target="_blank">X</a>
+		<a href="https://www.instagram.com/saghaleylewis/" target="_blank">Instagram</a>
         <a href="https://bsky.app/profile/saghaley.bsky.social" target="_blank">Bluesky</a>
         <a href="https://www.youtube.com/channel/UCaLHCoQmUwkm5isVCFj76zA" target="_blank">YouTube</a>
         <a href="https://saghaleylewis.newgrounds.com/" target="_blank">Newgrounds</a>
+		<a href="ko-fi.com/saghaley" target="_blank">Ko-fi</a>
         <a href="https://www.redbubble.com/people/nuuu-/shop?asc=u" target="_blank">Redbubble</a>
       </div>
     </div>
 
     <div id="contact">
-      <a href="mailto:saghaley@gmail.com" style="font-size:14px;color:#9a9a9a;text-decoration:none;">
+      <a id="contactEmail" href="mailto:saghaley@gmail.com"
+         style="font-size:14px;color:#9a9a9a;text-decoration:none;">
         saghaley@gmail.com
       </a>
     </div>
@@ -217,13 +238,31 @@
     }
 
     document.querySelectorAll(".random-gallery").forEach((img, i) => {
-      img.decoding = "async";
       img.src = shuffled[i % shuffled.length];
-      img.onerror = () => {
-        img.onerror = null;
-        img.removeAttribute("src");
-      };
+      img.onerror = () => { img.onerror = null; img.removeAttribute("src"); };
     });
+
+    const flashOnce = el => {
+      el.classList.remove("flash");
+      void el.offsetWidth;
+      el.classList.add("flash");
+    };
+
+    const navSocials = document.getElementById("navSocials");
+    const socialLinks = document.getElementById("socialLinks");
+    if (navSocials && socialLinks) {
+      navSocials.addEventListener("click", () => {
+        setTimeout(() => flashOnce(socialLinks), 150);
+      });
+    }
+
+    const navContact = document.getElementById("navContact");
+    const email = document.getElementById("contactEmail");
+    if (navContact && email) {
+      navContact.addEventListener("click", () => {
+        setTimeout(() => flashOnce(email), 150);
+      });
+    }
 
     const v = document.getElementById("heroVideo");
     if (v) v.play().catch(() => {});
