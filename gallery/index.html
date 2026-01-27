@@ -1,36 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Gallery</title>
-  <style>
-    h1 {
-      text-align: center;
-    }
-    img {
-      display: block;
-      margin: 0 auto;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Gallery</title>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 24px 0;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .gallery a {
+    display: block;
+  }
+
+  .gallery img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+
+  .gallery img:hover {
+    transform: scale(1.03);
+  }
+</style>
 </head>
 <body>
-  <h1>Gallery</h1>
-  <p></p>
-  <img src="angelofdeath.webp" alt=" " width="1000"><br>
-  <img src="glt.webp" alt=" " width="1000"><br>
-  <img src="dvwnpour.webp" alt=" " width="1000"><br>
-  <img src="deltarune.webp" alt=" " width="1000"><br>
-  <img src="angel.webp" alt=" " width="1000"><br>
-  <img src="hello.webp" alt=" " width="1000"><br>
-  <img src="ics.webp" alt=" " width="700"><br>
-  <img src="lake.webp" alt=" " width="1000"><br>
-  <img src="mado.webp" alt=" " width="1000"><br>
-  <img src="mots.webp" alt=" " width="650"><br>
-  <img src="napple.webp" alt=" " width="1000"><br>
-  <img src="ref.webp" alt=" " width="1000"><br>
-  <img src="refuge.webp" alt=" " width="1000"><br>
-  <img src="secondshot.webp" alt=" " width="650"><br>
-  <img src="shelter.webp" alt=" " width="650"><br>
-  <img src="subway.webp" alt=" " width="1000"><br>
+
+<h1>Gallery</h1>
+
+<div class="gallery">
+  <a href="angelofdeath.webp"><img src="angelofdeath.webp" loading="lazy"></a>
+  <a href="glt.webp"><img src="glt.webp" loading="lazy"></a>
+  <a href="dvwnpour.webp"><img src="dvwnpour.webp" loading="lazy"></a>
+  <a href="deltarune.webp"><img src="deltarune.webp" loading="lazy"></a>
+  <a href="angel.webp"><img src="angel.webp" loading="lazy"></a>
+  <a href="hello.webp"><img src="hello.webp" loading="lazy"></a>
+  <a href="ics.webp"><img src="ics.webp" loading="lazy"></a>
+  <a href="lake.webp"><img src="lake.webp" loading="lazy"></a>
+  <a href="mado.webp"><img src="mado.webp" loading="lazy"></a>
+  <a href="mots.webp"><img src="mots.webp" loading="lazy"></a>
+  <a href="napple.webp"><img src="napple.webp" loading="lazy"></a>
+  <a href="ref.webp"><img src="ref.webp" loading="lazy"></a>
+  <a href="refuge.webp"><img src="refuge.webp" loading="lazy"></a>
+  <a href="secondshot.webp"><img src="secondshot.webp" loading="lazy"></a>
+  <a href="shelter.webp"><img src="shelter.webp" loading="lazy"></a>
+  <a href="subway.webp"><img src="subway.webp" loading="lazy"></a>
+</div>
+
 </body>
 </html>

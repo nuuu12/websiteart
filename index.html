@@ -164,7 +164,7 @@
 
       <nav>
         <a href="https://ko-fi.com/saghaley/commissions" target="_blank">Commission</a>
-        <a href="https://saghaley.com/gallery/index.html" target="_blank">Work</a>
+        <a href="https://saghaley.com/gallery/index.html" target="_blank">Works</a>
         <a id="navSocials" href="#socials">Socials</a>
         <a id="navContact" href="#contact">Contact</a>
       </nav>
@@ -204,11 +204,11 @@
       <div id="socialLinks" class="social-links">
         <a href="https://www.patreon.com/Saghaley" target="_blank">Patreon</a>
         <a href="https://x.com/saghaley" target="_blank">X</a>
-		<a href="https://www.instagram.com/saghaleylewis/" target="_blank">Instagram</a>
+        <a href="https://www.instagram.com/saghaleylewis/" target="_blank">Instagram</a>
         <a href="https://bsky.app/profile/saghaley.bsky.social" target="_blank">Bluesky</a>
         <a href="https://www.youtube.com/channel/UCaLHCoQmUwkm5isVCFj76zA" target="_blank">YouTube</a>
         <a href="https://saghaleylewis.newgrounds.com/" target="_blank">Newgrounds</a>
-		<a href="ko-fi.com/saghaley" target="_blank">Ko-fi</a>
+        <a href="ko-fi.com/saghaley" target="_blank">Ko-fi</a>
         <a href="https://www.redbubble.com/people/nuuu-/shop?asc=u" target="_blank">Redbubble</a>
       </div>
     </div>
@@ -231,41 +231,36 @@
       "mado.webp","subway.webp","ics.webp","lake.webp"
     ];
 
+    // Shuffle images
     const shuffled = images.slice();
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
 
-    document.querySelectorAll(".random-gallery").forEach((img, i) => {
+    // Assign images to thumbnails with lazy loading
+    document.querySelectorAll("#work .random-gallery").forEach((img, i) => {
       img.src = shuffled[i % shuffled.length];
+      img.loading = "lazy"; // lazy load
+      img.width = 400;       // optional: renders smaller
+      img.height = 400;
       img.onerror = () => { img.onerror = null; img.removeAttribute("src"); };
     });
 
-    const flashOnce = el => {
-      el.classList.remove("flash");
-      void el.offsetWidth;
-      el.classList.add("flash");
-    };
+    // Flash effect for socials & contact
+    const flashOnce = el => { el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); };
 
     const navSocials = document.getElementById("navSocials");
     const socialLinks = document.getElementById("socialLinks");
-    if (navSocials && socialLinks) {
-      navSocials.addEventListener("click", () => {
-        setTimeout(() => flashOnce(socialLinks), 150);
-      });
-    }
+    if(navSocials && socialLinks) navSocials.addEventListener("click", () => setTimeout(() => flashOnce(socialLinks), 150));
 
     const navContact = document.getElementById("navContact");
     const email = document.getElementById("contactEmail");
-    if (navContact && email) {
-      navContact.addEventListener("click", () => {
-        setTimeout(() => flashOnce(email), 150);
-      });
-    }
+    if(navContact && email) navContact.addEventListener("click", () => setTimeout(() => flashOnce(email), 150));
 
+    // Play hero video
     const v = document.getElementById("heroVideo");
-    if (v) v.play().catch(() => {});
+    if(v) v.play().catch(() => {});
   });
 </script>
 
